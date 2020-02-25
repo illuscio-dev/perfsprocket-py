@@ -4,7 +4,7 @@ Spin through files and file sequences with ease!
 
 ## Installation
 
-``pip install islelib``
+``pip install perfsprocket``
 
 ## Getting Started
 For full documentation:
