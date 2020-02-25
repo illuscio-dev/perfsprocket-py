@@ -1,0 +1,827 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Interacting with Files &mdash; perfsprocket 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parsing File Names" href="filenames.html" />
+    <link rel="prev" title="Basic Usage" href="basic_usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> perfsprocket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Interacting with Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fileabc-abstract-base-class">FileABC (Abstract Base Class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filebase">FileBase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file">File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filesequence">FileSequence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filenames.html">Parsing File Names</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">perfsprocket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Interacting with Files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/files.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-perfsprocket"></span><div class="section" id="interacting-with-files">
+<h1>Interacting with Files<a class="headerlink" href="#interacting-with-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fileabc-abstract-base-class">
+<h2>FileABC (Abstract Base Class)<a class="headerlink" href="#fileabc-abstract-base-class" title="Permalink to this headline">¶</a></h2>
+<p>Protocol defining the interface for a file and supplying some base implementations.
+File ABC is a pure Protocol class, only defining inputs and returns. All methods are
+required when subclassing this protocol.</p>
+<p><a class="reference internal" href="#perfsprocket.FileBase" title="perfsprocket.FileBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileBase</span></code></a> offers partial implementation with sane defaults that both
+<a class="reference internal" href="#perfsprocket.File" title="perfsprocket.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a> and <a class="reference internal" href="#perfsprocket.FileSequence" title="perfsprocket.FileSequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSequence</span></code></a> build off of.</p>
+<dl class="class">
+<dt id="perfsprocket.FileABC">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">FileABC</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC" title="Permalink to this definition">¶</a></dt>
+<dd><p>The following is a table of required / optional overrides</p>
+<dl class="method">
+<dt id="perfsprocket.FileABC.__iter__">
+<code class="sig-name descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterates through FileABC’s paths, returning them</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of paths contained in FileABC. Should match the number of objects yielded
+by <code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.__iter___()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.chmod">
+<code class="sig-name descname">chmod</code><span class="sig-paren">(</span><em class="sig-param">mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.chmod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.chmod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-iter version of <a class="reference internal" href="#perfsprocket.FileABC.chmod_iter" title="perfsprocket.FileABC.chmod_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.chmod_iter()</span></code></a>, returns <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.chmod_iter">
+<code class="sig-name descname">chmod_iter</code><span class="sig-paren">(</span><em class="sig-param">mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.chmod_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.chmod_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields paths with altered permissions as operation occurs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-iter version of <a class="reference internal" href="#perfsprocket.FileABC.copy_iter" title="perfsprocket.FileABC.copy_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.copy_iter()</span></code></a>, returning only new
+<a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.copy_iter">
+<code class="sig-name descname">copy_iter</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.copy_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.copy_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield new paths created wile moving file to <code class="docutils literal notranslate"><span class="pre">dst_folder</span></code>. Yield new
+<a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a> at end</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-iter version of <a class="reference internal" href="#perfsprocket.FileABC.rename_iter" title="perfsprocket.FileABC.rename_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.rename_iter()</span></code></a>, returns <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.delete_iter">
+<code class="sig-name descname">delete_iter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.delete_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.delete_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields paths being deleted as operation occurs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.move">
+<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-iter version of <a class="reference internal" href="#perfsprocket.FileABC.move_iter" title="perfsprocket.FileABC.move_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.move_iter()</span></code></a>, returning only new
+<a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.move_iter">
+<code class="sig-name descname">move_iter</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.move_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.move_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield new paths created wile moving file to <code class="docutils literal notranslate"><span class="pre">dst_folder</span></code>. Yield new
+<a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a> at end</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#perfsprocket.FileABC.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="filenames.html#perfsprocket.NameABC" title="perfsprocket.NameABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></a> breakdown of file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.path">
+<em class="property">property </em><code class="sig-name descname">path</code><a class="headerlink" href="#perfsprocket.FileABC.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Single path most representative of file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pathlib path. See pathlib’s documentation for available methods.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.rename">
+<code class="sig-name descname">rename</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.rename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.rename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non-iter version of <a class="reference internal" href="#perfsprocket.FileABC.rename_iter" title="perfsprocket.FileABC.rename_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.rename_iter()</span></code></a>, returning only new
+<a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileABC.rename_iter">
+<code class="sig-name descname">rename_iter</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_abc.html#FileABC.rename_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileABC.rename_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields tuple of old, new paths, then new <a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code>]) – Either string or <a class="reference internal" href="filenames.html#perfsprocket.NameABC" title="perfsprocket.NameABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></a> with naming details.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>], ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="filebase">
+<h2>FileBase<a class="headerlink" href="#filebase" title="Permalink to this headline">¶</a></h2>
+<p>Offers sane base implementations of most <a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a>.</p>
+<dl class="class">
+<dt id="perfsprocket.FileBase">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">FileBase</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base implementations rely on some <em>additional</em>, simpler methods annotated below.
+Only these and implemented base methods are detailed</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 65%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>method</p></th>
+<th class="head"><p>required?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileBase.init_new" title="perfsprocket.FileBase.init_new"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.init_new()</span></code></a></p></td>
+<td><p>NEW - required</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileABC.__iter__" title="perfsprocket.FileABC.__iter__"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.__iter__()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileABC.__len__" title="perfsprocket.FileABC.__len__"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.__len__()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileABC.path" title="perfsprocket.FileABC.path"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.path()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileABC.name" title="perfsprocket.FileABC.name"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.name()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileABC.rename_iter" title="perfsprocket.FileABC.rename_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileABC.rename_iter()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.__repr__()</span></code></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileBase.move_iter" title="perfsprocket.FileBase.move_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.move_iter()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileBase.move" title="perfsprocket.FileBase.move"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.move()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileBase.copy_iter" title="perfsprocket.FileBase.copy_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.copy_iter()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileBase.copy" title="perfsprocket.FileBase.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.copy()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileBase.rename" title="perfsprocket.FileBase.rename"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.rename()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileBase.delete_iter" title="perfsprocket.FileBase.delete_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.delete_iter()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileBase.delete" title="perfsprocket.FileBase.delete"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.delete()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.FileBase.chmod_iter" title="perfsprocket.FileBase.chmod_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.chmod_iter()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.FileBase.chmod" title="perfsprocket.FileBase.chmod"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.chmod()</span></code></a></p></td>
+<td><p>has default</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="perfsprocket.FileBase.chmod">
+<code class="sig-name descname">chmod</code><span class="sig-paren">(</span><em class="sig-param">mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.chmod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.chmod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes <a class="reference internal" href="#perfsprocket.FileBase.chmod_iter" title="perfsprocket.FileBase.chmod_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.chmod_iter()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.chmod_iter">
+<code class="sig-name descname">chmod_iter</code><span class="sig-paren">(</span><em class="sig-param">mode</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.chmod_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.chmod_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through self, changing permissions on each path to <code class="docutils literal notranslate"><span class="pre">mode</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes <a class="reference internal" href="#perfsprocket.FileBase.copy_iter" title="perfsprocket.FileBase.copy_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.copy_iter()</span></code></a> and yields final item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.copy_iter">
+<code class="sig-name descname">copy_iter</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.copy_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.copy_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through self, copying files to root level of dst_folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes <a class="reference internal" href="#perfsprocket.FileBase.delete_iter" title="perfsprocket.FileBase.delete_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">delete_iter()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.delete_iter">
+<code class="sig-name descname">delete_iter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.delete_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.delete_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through self, deleting each path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.init_new">
+<code class="sig-name descname">init_new</code><span class="sig-paren">(</span><em class="sig-param">path_new</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.init_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.init_new" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize new object at end of copy or move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.move">
+<code class="sig-name descname">move</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes <a class="reference internal" href="#perfsprocket.FileBase.move_iter" title="perfsprocket.FileBase.move_iter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.move_iter()</span></code></a> and yield final item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.move_iter">
+<code class="sig-name descname">move_iter</code><span class="sig-paren">(</span><em class="sig-param">dst_folder</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.move_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.move_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through self, moving files to root level of dst_folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileBase.rename">
+<code class="sig-name descname">rename</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_base.html#FileBase.rename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileBase.rename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes <code class="xref py py-func docutils literal notranslate"><span class="pre">FileBase.rename_iter()</span></code> and yields final item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="file">
+<h2>File<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#perfsprocket.File" title="perfsprocket.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a> class is an implementation of <a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a> meant for interacting
+with single files.</p>
+<dl class="class">
+<dt id="perfsprocket.File">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">File</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file.html#File"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.File" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Magic Method</p></th>
+<th class="head"><p>return</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+<td><p>yields single file path</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p>always <code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="perfsprocket.File.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file.html#File.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.File.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PurePath</span></code>]) – to file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.File.init_new">
+<code class="sig-name descname">init_new</code><span class="sig-paren">(</span><em class="sig-param">path_new</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file.html#File.init_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.File.init_new" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize new object at end of copy or move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.File.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#perfsprocket.File.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>{name}{ext}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.File.path">
+<em class="property">property </em><code class="sig-name descname">path</code><a class="headerlink" href="#perfsprocket.File.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.File.rename_iter">
+<code class="sig-name descname">rename_iter</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file.html#File.rename_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.File.rename_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames file. Yields new <cite>File</cite> as last object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>], ~SelfType], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="filesequence">
+<h2>FileSequence<a class="headerlink" href="#filesequence" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#perfsprocket.File" title="perfsprocket.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a> class is an implementation of <a class="reference internal" href="#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a> meant for interacting
+with file sequences.</p>
+<p>File sequences are not arbitrary lists of files. They are numbered files in the same
+directory, named in a way <a class="reference internal" href="filenames.html#perfsprocket.SeqName" title="perfsprocket.SeqName"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></a> can parse. Ex: <cite>photo_0030.jpg</cite></p>
+<p>Getting a Specific File Path.</p>
+<dl class="class">
+<dt id="perfsprocket.FileSequence">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">FileSequence</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">start</em>, <em class="sig-param">end</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_sequence.html#FileSequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileSequence" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Magic Method</p></th>
+<th class="head"><p>return</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__iter__</span></code></p></td>
+<td><p>yields each path in file num order</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">__len__</span></code></p></td>
+<td><p>number of files in sequence (theoretical, does not check disk)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code></p></td>
+<td><p>returns path by index (not file num, 0 is first)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Specific file paths can be accessed via index:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">PosixPath(&#39;/Volumes/disk/folder/photo_100.jpeg&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">PosixPath(&#39;/Volumes/disk/folder/photo_200.jpeg&#39;)</span>
+</pre></div>
+</div>
+<p>If you wish to return by file number instead of a 0-based index, use
+<a class="reference internal" href="#perfsprocket.FileSequence.files" title="perfsprocket.FileSequence.files"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileSequence.files()</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">150</span><span class="p">]</span>
+<span class="go">PosixPath(&#39;/Volumes/disk/folder/photo_150.jpeg&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">120</span><span class="p">]</span>
+<span class="go">PosixPath(&#39;/Volumes/disk/folder/photo_120.jpeg&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">201</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+   <span class="c">...</span>
+<span class="gr">IndexError</span>
+</pre></div>
+</div>
+<p>Both ways can be sliced. A slice returns a new <a class="reference internal" href="#perfsprocket.FileSequence" title="perfsprocket.FileSequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSequence</span></code></a> of the desired
+bounds. As such, the slice <code class="docutils literal notranslate"><span class="pre">step</span></code> is always assumed to be <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">51</span><span class="p">]</span>
+<span class="go">&lt;FileSequence: &#39;/Volumes/disk/folder/photo_[120-150].jpeg&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="mi">120</span><span class="p">:</span><span class="mi">151</span><span class="p">]</span>
+<span class="go">&lt;FileSequence: &#39;/Volumes/disk/folder/photo_[120-150].jpeg&#39;&gt;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="perfsprocket.FileSequence.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">start</em>, <em class="sig-param">end</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_sequence.html#FileSequence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileSequence.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interact with file sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>]) – path to one (or generic) file in sequence.
+Generic path like so: ‘photo_###.jpeg’</p></li>
+<li><p><strong>start</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – first file number of sequence.</p></li>
+<li><p><strong>end</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – last file number of sequence.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.end">
+<em class="property">property </em><code class="sig-name descname">end</code><a class="headerlink" href="#perfsprocket.FileSequence.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">end</span></code> frame num passed to <a class="reference internal" href="#perfsprocket.FileSequence.__init__" title="perfsprocket.FileSequence.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileSequence.__init__()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.files">
+<em class="property">property </em><code class="sig-name descname">files</code><a class="headerlink" href="#perfsprocket.FileSequence.files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns object that can get file by frame number index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">_SeqNumSlicer</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.init_new">
+<code class="sig-name descname">init_new</code><span class="sig-paren">(</span><em class="sig-param">path_new</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_sequence.html#FileSequence.init_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileSequence.init_new" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize new object at end of copy or move.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~SelfType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#perfsprocket.FileSequence.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>dataclass with file sequence name info. See <a class="reference internal" href="filenames.html#perfsprocket.SeqName" title="perfsprocket.SeqName"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></a> documentation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.path">
+<em class="property">property </em><code class="sig-name descname">path</code><a class="headerlink" href="#perfsprocket.FileSequence.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to first file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.rename_iter">
+<code class="sig-name descname">rename_iter</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_class_file_sequence.html#FileSequence.rename_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileSequence.rename_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames each file in file num order, yielding a OldPath, NewPath pair <em>after</em> it
+has been successfully moved. Yields new <a class="reference internal" href="#perfsprocket.FileSequence" title="perfsprocket.FileSequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSequence</span></code></a> as last item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">FileSequence</span></code>], <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileSequence.start">
+<em class="property">property </em><code class="sig-name descname">start</code><a class="headerlink" href="#perfsprocket.FileSequence.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">start</span></code> frame num passed to <a class="reference internal" href="#perfsprocket.FileSequence.__init__" title="perfsprocket.FileSequence.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileSequence.__init__()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="filenames.html" class="btn btn-neutral float-right" title="Parsing File Names" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="basic_usage.html" class="btn btn-neutral float-left" title="Basic Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

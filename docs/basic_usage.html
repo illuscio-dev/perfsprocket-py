@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Basic Usage &mdash; perfsprocket 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interacting with Files" href="files.html" />
+    <link rel="prev" title="perfsprocket-py" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> perfsprocket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Interacting with Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filenames.html">Parsing File Names</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">perfsprocket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Basic Usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/basic_usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-perfsprocket"></span><div class="section" id="basic-usage">
+<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>Copy files and file sequences with a unified interface!</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">perfsprocket</span> <span class="kn">import</span> <span class="n">File</span><span class="p">,</span> <span class="n">FileSequence</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">single</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;~/Desktop/test/source/movie.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">single</span>
+<span class="go">&lt;File: &#39;/Users/dev/Desktop/test/source/movie.mp4&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copied_single</span> <span class="o">=</span> <span class="n">single</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dst_folder</span><span class="o">=</span><span class="s2">&quot;~/Desktop/test/destination&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">copied_single</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">/Users/dev/Desktop/test/destination/movie.mp4</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span> <span class="o">=</span> <span class="n">FileSequence</span><span class="p">(</span><span class="s2">&quot;~/Desktop/test/source/photo_###.jpeg&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span>
+<span class="go">&lt;FileSequence: &#39;/Users/dev/Desktop/test/source/photo_[001-005].jpeg&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copied_sequence</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dst_folder</span><span class="o">=</span><span class="s2">&quot;~/Desktop/test/destination&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">copied_sequence</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">/Users/dev/Desktop/test/destination/photo_001.jpeg</span>
+<span class="go">/Users/dev/Desktop/test/destination/photo_002.jpeg</span>
+<span class="go">/Users/dev/Desktop/test/destination/photo_003.jpeg</span>
+<span class="go">/Users/dev/Desktop/test/destination/photo_004.jpeg</span>
+<span class="go">/Users/dev/Desktop/test/destination/photo_005.jpeg</span>
+</pre></div>
+</div>
+<p>Both <a class="reference internal" href="files.html#perfsprocket.File" title="perfsprocket.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a> and <a class="reference internal" href="files.html#perfsprocket.FileSequence" title="perfsprocket.FileSequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileSequence</span></code></a> are iterable. All operations are built to
+have a common interface, so you can mix single files and file sequences without thought.</p>
+</div></blockquote>
+</li>
+<li><p>Both classes also supports move, rename, delete, and chmod commands:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">single</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;favorite_movie.mp4&quot;</span><span class="p">)</span>
+<span class="go">&lt;File: &#39;/Users/dev/Desktop/test/source/favorite_movie.mp4&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;family_photo_###.jpeg&quot;</span><span class="p">)</span>
+<span class="go">&lt;FileSequence: &#39;/Users/dev/Desktop/test/source/family_photo_[001-005].jpeg&#39;&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Each operation has an iterator equivalent, allowing you to track progress.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">copied_single</span><span class="o">.</span><span class="n">chmod_iter</span><span class="p">(</span><span class="mo">0o777</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;updated: </span><span class="si">{path}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/movie.mp4</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">copied_sequence</span><span class="o">.</span><span class="n">chmod_iter</span><span class="p">(</span><span class="mo">0o777</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;updated: </span><span class="si">{path}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/photo_001.jpeg</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/photo_002.jpeg</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/photo_003.jpeg</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/photo_004.jpeg</span>
+<span class="go">updated: /Users/dev/Desktop/test/destination/photo_005.jpeg</span>
+</pre></div>
+</div>
+</li>
+<li><p>Easily parse filenames:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file_name</span> <span class="o">=</span> <span class="n">FileName</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file_name</span>
+<span class="go">FileName(name=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seq_name</span>
+<span class="go">SeqName(name=&#39;photo&#39;, extension=&#39;.jpeg&#39;, delim=&#39;_&#39;, start=1, end=None, pad=4, brackets=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">seq_name</span><span class="p">)</span>
+<span class="go">&#39;photo_0001.jpeg&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Manipulate <a class="reference internal" href="filenames.html#perfsprocket.NameABC" title="perfsprocket.NameABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></a> objects during rename operations:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">single</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;~/Desktop/test/source/movie.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">single</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">single</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="s2">&quot;favorite&quot;</span><span class="p">))</span>
+<span class="go">&lt;File: &#39;/Users/dev/Desktop/test/source/favorite.mp4&#39;&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span> <span class="o">=</span> <span class="n">FileSequence</span><span class="p">(</span><span class="s2">&quot;~/Desktop/test/source/photo_###.jpeg&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sequence</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">sequence</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="s2">&quot;favorite&quot;</span><span class="p">))</span>
+<span class="go">&lt;FileSequence: &#39;/Users/dev/Desktop/test/source/favorite_[001-005].jpeg&#39;&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="files.html" class="btn btn-neutral float-right" title="Interacting with Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="perfsprocket-py" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

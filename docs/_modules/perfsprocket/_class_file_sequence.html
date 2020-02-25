@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>perfsprocket._class_file_sequence &mdash; perfsprocket 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> perfsprocket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../files.html">Interacting with Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filenames.html">Parsing File Names</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">perfsprocket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>perfsprocket._class_file_sequence</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for perfsprocket._class_file_sequence</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">overload</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeVar</span>
+
+<span class="kn">from</span> <span class="nn">perfsprocket</span> <span class="kn">import</span> <span class="n">FileBase</span>
+<span class="kn">from</span> <span class="nn">._file_name</span> <span class="kn">import</span> <span class="n">SeqName</span><span class="p">,</span> <span class="n">NameABC</span><span class="p">,</span> <span class="n">BRACKET</span>
+<span class="kn">from</span> <span class="nn">._helpers_private</span> <span class="kn">import</span> <span class="n">_init_path</span>
+
+
+<span class="k">def</span> <span class="nf">seq_get_index</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">seq</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">seq</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">_end</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">_start</span> <span class="o">+</span> <span class="n">item</span>
+
+    <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">_start</span> <span class="ow">or</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="n">seq</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">seq</span><span class="o">.</span><span class="n">_parent</span> <span class="o">/</span> <span class="n">name</span>
+
+
+<span class="k">def</span> <span class="nf">seq_get_slice</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">:</span>
+    <span class="n">num_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">_start</span><span class="p">,</span> <span class="n">seq</span><span class="o">.</span><span class="n">_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))[</span><span class="n">bounds</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">FileSequence</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">num_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">filenum_index</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@overload</span>  <span class="c1"># noqa: F811</span>
+<span class="k">def</span> <span class="nf">filenum_index</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">filenum_index</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+    <span class="n">index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Converts file number to conventional index&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">index</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">-=</span> <span class="n">seq</span><span class="o">.</span><span class="n">start</span>
+        <span class="c1"># if the requested index was a positive number, and adjusting for the start</span>
+        <span class="c1">#   number throws it into the negatives, then we know the request is out of</span>
+        <span class="c1">#   range of the sequence, so we need to raise an error here to avoid returning</span>
+        <span class="c1">#   a file from the end of the sequence because of the negative roll over.</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Frame Out of range&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">index</span>
+
+
+<span class="k">class</span> <span class="nc">_SeqNumSlicer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seq</span><span class="p">:</span> <span class="s2">&quot;FileSequence&quot;</span> <span class="o">=</span> <span class="n">seq</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">:</span>  <span class="c1"># noqa: F811</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">]:</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">filenum_index</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">filenum_index</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq</span><span class="p">)</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">filenum_index</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+
+<span class="n">SelfType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;SelfType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;FileSequence&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="FileSequence"><a class="viewcode-back" href="../../files.html#perfsprocket.FileSequence">[docs]</a><span class="k">class</span> <span class="nc">FileSequence</span><span class="p">(</span><span class="n">FileBase</span><span class="p">):</span>
+<div class="viewcode-block" id="FileSequence.__init__"><a class="viewcode-back" href="../../files.html#perfsprocket.FileSequence.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interact with file sequences.</span>
+
+<span class="sd">        :param path: path to one (or generic) file in sequence.</span>
+<span class="sd">            Generic path like so: &#39;photo_###.jpeg&#39;</span>
+<span class="sd">        :param start: first file number of sequence.</span>
+<span class="sd">        :param end: last file number of sequence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">_init_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="n">SeqName</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">end</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seq_num_slicer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;_SeqNumSlicer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="n">BRACKET</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;{type(self).__name__}: &#39;{self.path.parent / str(name)}&#39;&gt;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">:</span>  <span class="c1"># noqa: F811</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">seq_get_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">seq_get_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__reversed__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))):</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;path to first file&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SeqName</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;dataclass with file sequence name info. See :class:`SeqName` documentation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return ``start`` frame num passed to :func:`FileSequence.__init__`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return ``end`` frame num passed to :func:`FileSequence.__init__`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_SeqNumSlicer</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns object that can get file by frame number index.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq_num_slicer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_seq_num_slicer</span> <span class="o">=</span> <span class="n">_SeqNumSlicer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq_num_slicer</span>
+
+<div class="viewcode-block" id="FileSequence.init_new"><a class="viewcode-back" href="../../files.html#perfsprocket.FileSequence.init_new">[docs]</a>    <span class="k">def</span> <span class="nf">init_new</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">SelfType</span><span class="p">,</span> <span class="n">path_new</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelfType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">path_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileSequence.rename_iter"><a class="viewcode-back" href="../../files.html#perfsprocket.FileSequence.rename_iter">[docs]</a>    <span class="k">def</span> <span class="nf">rename_iter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NameABC</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="s2">&quot;FileSequence&quot;</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renames each file in file num order, yielding a OldPath, NewPath pair *after* it</span>
+<span class="sd">        has been successfully moved. Yields new :class:`FileSequence` as last item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">SeqName</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">extension</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">new_start</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">start</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
+
+        <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="n">path</span><span class="p">:</span> <span class="n">Path</span>
+
+        <span class="n">first_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># this comparison is correct, since</span>
+        <span class="n">reverse_rename</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">new_start</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span>
+
+        <span class="c1"># We need to rename form last to first if the start frame is higher. When a</span>
+        <span class="c1"># sequence is being renamed to a higher start file, the rename will override</span>
+        <span class="c1"># it&#39;s own files if done in order.</span>
+
+        <span class="n">new_end</span> <span class="o">=</span> <span class="n">new_start</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">num_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">new_start</span><span class="p">,</span> <span class="n">new_end</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reverse_rename</span><span class="p">:</span>
+            <span class="n">path_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">num_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">num_range</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_iter</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">num_iter</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">num_range</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">num_iter</span><span class="p">,</span> <span class="n">path_iter</span><span class="p">):</span>
+            <span class="n">this_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">new_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="nb">str</span><span class="p">(</span><span class="n">this_name</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">new_path</span><span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">path</span><span class="p">,</span> <span class="n">new_path</span>
+
+            <span class="k">if</span> <span class="n">first_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">first_path</span> <span class="o">=</span> <span class="n">new_path</span>
+
+        <span class="k">if</span> <span class="n">reverse_rename</span> <span class="ow">or</span> <span class="n">first_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">first_path</span> <span class="o">=</span> <span class="n">new_path</span>
+
+        <span class="c1"># type can be ignored here since we know all names generated with the above</span>
+        <span class="c1"># will have an int fot this_name.start</span>
+        <span class="k">yield</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">first_path</span><span class="p">,</span> <span class="n">new_start</span><span class="p">,</span> <span class="n">new_end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

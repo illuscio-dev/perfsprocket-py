@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parsing File Names &mdash; perfsprocket 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Interacting with Files" href="files.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> perfsprocket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="files.html">Interacting with Files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parsing File Names</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nameabc">NameABC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filename">FileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seqname">SeqName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#braces">Braces</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">perfsprocket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Parsing File Names</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/filenames.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-perfsprocket"></span><div class="section" id="parsing-file-names">
+<h1>Parsing File Names<a class="headerlink" href="#parsing-file-names" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nameabc">
+<h2>NameABC<a class="headerlink" href="#nameabc" title="Permalink to this headline">¶</a></h2>
+<p>Protocol defining methods / fields that should be available on an Implementation.</p>
+<p>Concrete implementations should be FROZEN dataclasses, alterations are expected to be
+made with <a class="reference internal" href="#perfsprocket.NameABC.alter" title="perfsprocket.NameABC.alter"><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.alter()</span></code></a></p>
+<dl class="class">
+<dt id="perfsprocket.NameABC">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">NameABC</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#NameABC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.NameABC" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils align-default">
+<colgroup>
+<col style="width: 79%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>method</p></th>
+<th class="head"><p>required?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>name (attribute)</p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-odd"><td><p>extension (attribute)</p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.NameABC.from_path" title="perfsprocket.NameABC.from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.from_path()</span></code></a> (class method)</p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#perfsprocket.NameABC.alter" title="perfsprocket.NameABC.alter"><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.alter()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#perfsprocket.NameABC.formatted" title="perfsprocket.NameABC.formatted"><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.formatted()</span></code></a></p></td>
+<td><p>required</p></td>
+</tr>
+<tr class="row-odd"><td><p><a href="#id1"><span class="problematic" id="id2">:finc:`NameABC.__str__`</span></a></p></td>
+<td><p>has default</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="simple">
+<dt>Implementation Notes:</dt><dd><ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.__str__()</span></code> should give the same result as <a class="reference internal" href="#perfsprocket.NameABC.formatted" title="perfsprocket.NameABC.formatted"><code class="xref py py-func docutils literal notranslate"><span class="pre">NameABC.formatted()</span></code></a></p></li>
+</ul>
+</dd>
+<dt>Attributes:</dt><dd><ul class="simple">
+<li><p><strong>name</strong> (str): The “name” of a file as a human would read it without data chaff
+like extensions.</p></li>
+<li><p><strong>extension</strong> (<code class="docutils literal notranslate"><span class="pre">Optional[str]</span></code>): The extension of an object <em>with</em> a period
+(ex: <cite>.mov</cite>).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="perfsprocket.NameABC.alter">
+<code class="sig-name descname">alter</code><span class="sig-paren">(</span><em class="sig-param">base=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">extension=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#NameABC.alter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.NameABC.alter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns new <cite>NameABC</cite> with changes to fields. Each argument should accept the
+<code class="docutils literal notranslate"><span class="pre">perfsprocket.KEEP</span></code> flag as the default, which signals that a value should not
+change. <code class="docutils literal notranslate"><span class="pre">None</span></code> values should be signals to change a field to <code class="docutils literal notranslate"><span class="pre">None</span></code>. Methods
+should also include <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs so other Name conventions arguments can be passed
+without effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.NameABC.formatted">
+<code class="sig-name descname">formatted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#NameABC.formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.NameABC.formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns name string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.NameABC.from_path">
+<em class="property">classmethod </em><code class="sig-name descname">from_path</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#NameABC.from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.NameABC.from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>New <a class="reference internal" href="#perfsprocket.NameABC" title="perfsprocket.NameABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></a> instance from <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NameABC</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="filename">
+<h2>FileName<a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of <a class="reference internal" href="files.html#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a>.</p>
+<dl class="class">
+<dt id="perfsprocket.FileName">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">FileName</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#FileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileName" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Attributes:</dt><dd><ul class="simple">
+<li><p><strong>base</strong> (str): The “name” of a file as a human would read it without data chaff
+like extensions. Ex: <code class="docutils literal notranslate"><span class="pre">'movie.mp4'</span></code> has a “base” of <code class="docutils literal notranslate"><span class="pre">'movie'</span></code></p></li>
+<li><p><strong>extension</strong> (<code class="docutils literal notranslate"><span class="pre">Optional[str]</span></code>): The extension of an object <em>with</em> a period
+(ex: <code class="docutils literal notranslate"><span class="pre">'.mp4'</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference internal" href="#perfsprocket.FileName" title="perfsprocket.FileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></a> will automatically add a period to extensions that are missing it.</p>
+<dl>
+<dt>Examples:</dt><dd><ul>
+<li><p>Basic init</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">FileName</span><span class="p">(</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="s2">&quot;.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">FileName(base=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Missing extension period</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">FileName</span><span class="p">(</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="s2">&quot;mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">FileName(base=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">Filename.from_path()</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">FileName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;/Volumes/disk/folder/movie.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">FileName(base=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference internal" href="#perfsprocket.FileName.from_path" title="perfsprocket.FileName.from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileName.from_path()</span></code></a> works with just a name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">FileName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;movie.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">FileName(base=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Make changes to name</p>
+<blockquote>
+<div><p><a class="reference internal" href="#perfsprocket.FileName" title="perfsprocket.FileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></a> is a frozen dataclass, and treated as immutable. You can get
+a new name with different values using <a class="reference internal" href="#perfsprocket.FileName.alter" title="perfsprocket.FileName.alter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileName.alter()</span></code></a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">FileName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;movie.mp4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">FileName(base=&#39;movie&#39;, extension=&#39;.mp4&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.mp4&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="perfsprocket.FileName.alter">
+<code class="sig-name descname">alter</code><span class="sig-paren">(</span><em class="sig-param">base=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">extension=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#FileName.alter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileName.alter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make changes to name.
+<code class="docutils literal notranslate"><span class="pre">KEEP</span></code>: keep current value
+<code class="docutils literal notranslate"><span class="pre">None</span></code>: Change value to <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileName.formatted">
+<code class="sig-name descname">formatted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#FileName.formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileName.formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns formatted string EX: <cite>movie.mp4</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.FileName.from_path">
+<em class="property">classmethod </em><code class="sig-name descname">from_path</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#FileName.from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.FileName.from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>New <a class="reference internal" href="#perfsprocket.FileName" title="perfsprocket.FileName"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></a> instance from <code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FileName</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="seqname">
+<h2>SeqName<a class="headerlink" href="#seqname" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of <a class="reference internal" href="files.html#perfsprocket.FileABC" title="perfsprocket.FileABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileABC</span></code></a>, describes sequence filenames, including naming
+conventions for full sequences.</p>
+<dl class="simple">
+<dt>Examples:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo.0100.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo.####.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_0100.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_0100'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_0100-0200.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_####-####.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_[0100-0200].exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_{0100-0200}.exr'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'photo_{0100-0200}'</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>SeqName understands the following braces when representing file number ranges, and
+transforms them to an <a class="reference internal" href="#perfsprocket.Braces" title="perfsprocket.Braces"><code class="xref py py-class docutils literal notranslate"><span class="pre">Braces</span></code></a> object:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 21%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Convention</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p><a class="reference internal" href="#perfsprocket.Braces" title="perfsprocket.Braces"><code class="xref py py-class docutils literal notranslate"><span class="pre">Braces</span></code></a> object</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&lt;&gt;</p></td>
+<td><p>&lt;010-020&gt;</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perfsprocket.ARROW</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>[]</p></td>
+<td><p>[010-020]</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perfsprocket.BRACKET</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>{}</p></td>
+<td><p>{010-020}</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perfsprocket.CURLY</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>()</p></td>
+<td><p>(010-020)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perfsprocket.PAREN</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="class">
+<dt id="perfsprocket.SeqName">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">SeqName</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#SeqName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.SeqName" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Attributes:</dt><dd><ul>
+<li><p><strong>base</strong> (str): The “name” of a file as a human would read it without data chaff
+like extensions.</p>
+<blockquote>
+<div><p>Ex: <code class="docutils literal notranslate"><span class="pre">'photo'</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code>
+Ex: <code class="docutils literal notranslate"><span class="pre">'movie'</span></code> in <code class="docutils literal notranslate"><span class="pre">`movie.[0143-0200].exr'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>extension</strong> (<code class="docutils literal notranslate"><span class="pre">Optional[str]</span></code>): The extension of an object <em>with</em> a period</p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'.jpg'</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'.exr'</span></code> in <code class="docutils literal notranslate"><span class="pre">`movie.[0143-0200].exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">`scan_0100'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>delim</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) - delimiter separating <code class="docutils literal notranslate"><span class="pre">base</span></code> from the file number or
+range. Must be <code class="docutils literal notranslate"><span class="pre">'_'</span></code> or <code class="docutils literal notranslate"><span class="pre">'.'</span></code></p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">'.'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'_'</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'.'</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[0143-0200].exr'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>start</strong> (<code class="docutils literal notranslate"><span class="pre">Union[int,</span> <span class="pre">str]</span></code>) - first file number in range. Can be <code class="docutils literal notranslate"><span class="pre">'#'</span></code> for
+generic number. <code class="docutils literal notranslate"><span class="pre">'#'</span></code> is the only valid string value</p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">'#'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">100</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">143</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[0143-0200].exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'#'</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_###.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'#'</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[####-####].exr'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>end</strong> (<code class="docutils literal notranslate"><span class="pre">Optional[Union[int,</span> <span class="pre">str]]</span></code>) - second file number in range. Can be
+<code class="docutils literal notranslate"><span class="pre">'#'</span></code> for generic number. <code class="docutils literal notranslate"><span class="pre">'#'</span></code> is the only valid string value. <code class="docutils literal notranslate"><span class="pre">None</span></code>
+when no end number is given.</p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">200</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[0143-0200].exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_###.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">'#'</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[####-####].exr'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>pad</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) - padding for <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> values when printed to
+strings.</p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">0</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">3</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">4</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">4</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[0143-0200].exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">3</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_###.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">4</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[####-####].exr'</span></code></p>
+</div></blockquote>
+</li>
+<li><p><strong>brackets</strong> (<code class="docutils literal notranslate"><span class="pre">Optional[</span></code><code class="xref py py-class docutils literal notranslate"><span class="pre">Brackets``</span></code>]``) - type of brackets
+surrounding range.</p>
+<blockquote>
+<div><p>Default: <code class="docutils literal notranslate"><span class="pre">perfsprocket.BRACE</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">'photo_0100.jpg'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.0143-0200.exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">perfsprocket.BRACE</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.[0143-0200].exr'</span></code></p>
+<p>Ex: <code class="docutils literal notranslate"><span class="pre">perfsprocket.PAREN</span></code> in <code class="docutils literal notranslate"><span class="pre">'movie.(0143-0200).exr'</span></code></p>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference internal" href="#perfsprocket.SeqName" title="perfsprocket.SeqName"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></a> will automatically add a period to extensions that are missing it.</p>
+<dl>
+<dt>Examples:</dt><dd><ul>
+<li><p>Basic init</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">perfsprocket</span> <span class="kn">import</span> <span class="n">SeqName</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.exr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.#.exr&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Non-default options:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.exr&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.0100-0200.exr&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference internal" href="#perfsprocket.SeqName.from_path" title="perfsprocket.SeqName.from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">SeqName.from_path()</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;/Volumes/disk/folder/movie.0143.exr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">SeqName(base=&#39;movie&#39;, extension=&#39;.exr&#39;, delim=&#39;.&#39;, start=143, end=None, ...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.0143.exr&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference internal" href="#perfsprocket.SeqName.from_path" title="perfsprocket.SeqName.from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">SeqName.from_path()</span></code></a> works with just a name:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;movie.0143.exr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">SeqName(base=&#39;movie&#39;, extension=&#39;.exr&#39;, delim=&#39;.&#39;, start=143, end=None, ...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.0143.exr&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Make changes to name:</p>
+<blockquote>
+<div><p><a class="reference internal" href="#perfsprocket.SeqName" title="perfsprocket.SeqName"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></a> is a frozen dataclass, and treated as immutable. You can get
+a new name with different values using <a class="reference internal" href="#perfsprocket.FileName.alter" title="perfsprocket.FileName.alter"><code class="xref py py-func docutils literal notranslate"><span class="pre">FileName.alter()</span></code></a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;movie.0143.exr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">alter</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">243</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;movie.00243.exr&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="perfsprocket.SeqName.alter">
+<code class="sig-name descname">alter</code><span class="sig-paren">(</span><em class="sig-param">base=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">extension=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">delim=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">start=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">end=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">pad=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">brackets=&lt;perfsprocket._file_name.Flag object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#SeqName.alter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.SeqName.alter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make changes to name.
+<code class="docutils literal notranslate"><span class="pre">KEEP</span></code>: keep current value
+<code class="docutils literal notranslate"><span class="pre">None</span></code>: Change value to <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.SeqName.formatted">
+<code class="sig-name descname">formatted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#SeqName.formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.SeqName.formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns formatted string EX: <cite>A001_C001.[0034241-0034256].exr</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.SeqName.from_path">
+<em class="property">classmethod </em><code class="sig-name descname">from_path</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#SeqName.from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.SeqName.from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse file sequence filename from path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="braces">
+<h2>Braces<a class="headerlink" href="#braces" title="Permalink to this headline">¶</a></h2>
+<p>The class below is used to describe braces. Certain pre-loaded <a class="reference internal" href="#perfsprocket.Braces" title="perfsprocket.Braces"><code class="xref py py-class docutils literal notranslate"><span class="pre">Braces</span></code></a> instances
+are used to signal that a <a class="reference internal" href="#perfsprocket.SeqName" title="perfsprocket.SeqName"><code class="xref py py-class docutils literal notranslate"><span class="pre">SeqName</span></code></a> uses a certain convention:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">perfsprocket</span> <span class="kn">import</span> <span class="n">SeqName</span><span class="p">,</span> <span class="n">BRACKET</span><span class="p">,</span> <span class="n">PAREN</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">SeqName</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="s2">&quot;movie.[0143-0327].exr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span><span class="o">.</span><span class="n">brackets</span> <span class="ow">is</span> <span class="n">BRACKET</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span><span class="o">.</span><span class="n">brackets</span> <span class="ow">is</span> <span class="n">PAREN</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BRACKET</span><span class="o">.</span><span class="n">open</span>
+<span class="go">&#39;[&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BRACKET</span><span class="o">.</span><span class="n">close</span>
+<span class="go">&#39;]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">BRACKET</span><span class="p">)</span>
+<span class="go">&#39;[]&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BRACKET</span><span class="o">.</span><span class="n">enclose</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="go">&#39;[text]&#39;</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="perfsprocket.Braces">
+<em class="property">class </em><code class="sig-prename descclassname">perfsprocket.</code><code class="sig-name descname">Braces</code><span class="sig-paren">(</span><em class="sig-param">open_char</em>, <em class="sig-param">close_char</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#Braces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.Braces" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="perfsprocket.Braces.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">open_char</em>, <em class="sig-param">close_char</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#Braces.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.Braces.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.Braces.close">
+<em class="property">property </em><code class="sig-name descname">close</code><a class="headerlink" href="#perfsprocket.Braces.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>closing character passed to <a class="reference internal" href="#perfsprocket.Braces.__init__" title="perfsprocket.Braces.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">Braces.__init__()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.Braces.enclose">
+<code class="sig-name descname">enclose</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/perfsprocket/_file_name.html#Braces.enclose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#perfsprocket.Braces.enclose" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrap text in open and close char</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="perfsprocket.Braces.open">
+<em class="property">property </em><code class="sig-name descname">open</code><a class="headerlink" href="#perfsprocket.Braces.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>opening character passed to <a class="reference internal" href="#perfsprocket.Braces.__init__" title="perfsprocket.Braces.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">Braces.__init__()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="files.html" class="btn btn-neutral float-left" title="Interacting with Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
