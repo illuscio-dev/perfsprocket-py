@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>perfsprocket._file_name &mdash; perfsprocket 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> perfsprocket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../files.html">Interacting with Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filenames.html">Parsing File Names</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">perfsprocket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>perfsprocket._file_name</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for perfsprocket._file_name</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">overload</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">PurePath</span>
+
+<span class="kn">from</span> <span class="nn">._helpers_private</span> <span class="kn">import</span> <span class="n">_init_pure_path</span>
+
+
+<div class="viewcode-block" id="Braces"><a class="viewcode-back" href="../../filenames.html#perfsprocket.Braces">[docs]</a><span class="k">class</span> <span class="nc">Braces</span><span class="p">:</span>
+<div class="viewcode-block" id="Braces.__init__"><a class="viewcode-back" href="../../filenames.html#perfsprocket.Braces.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">open_char</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">close_char</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_open</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">open_char</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">close_char</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.open}{self.close}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;opening character passed to :func:`Braces.__init__`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_open</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;closing character passed to :func:`Braces.__init__`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close</span>
+
+<div class="viewcode-block" id="Braces.enclose"><a class="viewcode-back" href="../../filenames.html#perfsprocket.Braces.enclose">[docs]</a>    <span class="k">def</span> <span class="nf">enclose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;wrap text in open and close char&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.open}{text}{self.close}</span><span class="s2">&quot;</span></div></div>
+
+
+<span class="n">ARROW</span> <span class="o">=</span> <span class="n">Braces</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">)</span>
+<span class="n">BRACKET</span> <span class="o">=</span> <span class="n">Braces</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+<span class="n">CURLY</span> <span class="o">=</span> <span class="n">Braces</span><span class="p">(</span><span class="s2">&quot;{&quot;</span><span class="p">,</span> <span class="s2">&quot;}&quot;</span><span class="p">)</span>
+<span class="n">PAREN</span> <span class="o">=</span> <span class="n">Braces</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+
+<span class="n">BRACES_KINDS</span> <span class="o">=</span> <span class="p">[</span><span class="n">ARROW</span><span class="p">,</span> <span class="n">BRACKET</span><span class="p">,</span> <span class="n">CURLY</span><span class="p">,</span> <span class="n">PAREN</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Flag</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="n">KEEP</span> <span class="o">=</span> <span class="n">Flag</span><span class="p">()</span>
+
+
+<span class="n">PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;^&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;base&gt;.+)&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;sep&gt;[._])&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;open&gt;[\[{&lt;(])?&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;start&gt;\d+|#+)&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(-(?P&lt;end&gt;\d*|#*))?&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;close&gt;[\]}&gt;)])?&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;(?P&lt;extension&gt;\..+)?&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;$&quot;</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="NameABC"><a class="viewcode-back" href="../../filenames.html#perfsprocket.NameABC">[docs]</a><span class="k">class</span> <span class="nc">NameABC</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NameABC.from_path"><a class="viewcode-back" href="../../filenames.html#perfsprocket.NameABC.from_path">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PurePath</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;NameABC&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;New :class:`NameABC` instance from ``pathlib.Path`` or ``str``&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="NameABC.alter"><a class="viewcode-back" href="../../filenames.html#perfsprocket.NameABC.alter">[docs]</a>    <span class="k">def</span> <span class="nf">alter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Flag</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;NameABC&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns new `NameABC` with changes to fields. Each argument should accept the</span>
+<span class="sd">        ``perfsprocket.KEEP`` flag as the default, which signals that a value should not</span>
+<span class="sd">        change. ``None`` values should be signals to change a field to ``None``. Methods</span>
+<span class="sd">        should also include **kwargs so other Name conventions arguments can be passed</span>
+<span class="sd">        without effect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="NameABC.formatted"><a class="viewcode-back" href="../../filenames.html#perfsprocket.NameABC.formatted">[docs]</a>    <span class="k">def</span> <span class="nf">formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns name string.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="FileName"><a class="viewcode-back" href="../../filenames.html#perfsprocket.FileName">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">FileName</span><span class="p">(</span><span class="n">NameABC</span><span class="p">):</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;extension&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{self.extension}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FileName.from_path"><a class="viewcode-back" href="../../filenames.html#perfsprocket.FileName.from_path">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PurePath</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileName&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;New :class:`FileName` instance from ``pathlib.Path`` or ``str``&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">_init_pure_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FileName</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileName.alter"><a class="viewcode-back" href="../../filenames.html#perfsprocket.FileName.alter">[docs]</a>    <span class="k">def</span> <span class="nf">alter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Flag</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FileName&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make changes to name.</span>
+<span class="sd">        ``KEEP``: keep current value</span>
+<span class="sd">        ``None``: Change value to ``None``</span>
+
+<span class="sd">        :return: new object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We can cast this since KEEP is the only Flag type defined.</span>
+        <span class="n">base_arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="n">KEEP</span> <span class="k">else</span> <span class="n">base</span>
+        <span class="n">base_arg</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">base_arg</span><span class="p">)</span>
+
+        <span class="n">extension_arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="k">if</span> <span class="n">extension</span> <span class="ow">is</span> <span class="n">KEEP</span> <span class="k">else</span> <span class="n">extension</span>
+        <span class="n">extension_arg</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">extension_arg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">FileName</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">base_arg</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">extension_arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileName.formatted"><a class="viewcode-back" href="../../filenames.html#perfsprocket.FileName.formatted">[docs]</a>    <span class="k">def</span> <span class="nf">formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;returns formatted string EX: `movie.mp4`&quot;&quot;&quot;</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.base}{extension}</span><span class="s2">&quot;</span></div></div>
+
+
+<div class="viewcode-block" id="SeqName"><a class="viewcode-back" href="../../filenames.html#perfsprocket.SeqName">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SeqName</span><span class="p">(</span><span class="n">FileName</span><span class="p">):</span>
+    <span class="n">delim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+    <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span>
+    <span class="n">end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pad</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">brackets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Braces</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="n">_post_init_start_end</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">_post_init_start_end</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SeqName.from_path"><a class="viewcode-back" href="../../filenames.html#perfsprocket.SeqName.from_path">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PurePath</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;SeqName&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse file sequence filename from path&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">_init_pure_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">pieces</span> <span class="o">=</span> <span class="n">_extract_pieces_from_str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">base</span><span class="p">,</span> <span class="n">delim</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">num_end</span><span class="p">,</span> <span class="n">pad</span><span class="p">,</span> <span class="n">brackets</span><span class="p">,</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">pieces</span>
+
+        <span class="n">new</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+            <span class="n">extension</span><span class="o">=</span><span class="n">extension</span><span class="p">,</span>
+            <span class="n">delim</span><span class="o">=</span><span class="n">delim</span><span class="p">,</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+            <span class="n">end</span><span class="o">=</span><span class="n">num_end</span><span class="p">,</span>
+            <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span>
+            <span class="n">brackets</span><span class="o">=</span><span class="n">brackets</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+
+<div class="viewcode-block" id="SeqName.alter"><a class="viewcode-back" href="../../filenames.html#perfsprocket.SeqName.alter">[docs]</a>    <span class="k">def</span> <span class="nf">alter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">base</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">extension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">delim</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">pad</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Braces</span><span class="p">,</span> <span class="n">Flag</span><span class="p">]]</span> <span class="o">=</span> <span class="n">KEEP</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Flag</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SeqName&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make changes to name.</span>
+<span class="sd">        ``KEEP``: keep current value</span>
+<span class="sd">        ``None``: Change value to ``None``</span>
+
+<span class="sd">        :return: new object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">base</span><span class="p">,</span> <span class="n">extension</span><span class="p">,</span> <span class="n">delim</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">pad</span><span class="p">,</span> <span class="n">brackets</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="s2">&quot;extension&quot;</span><span class="p">,</span> <span class="s2">&quot;delim&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;pad&quot;</span><span class="p">,</span> <span class="s2">&quot;brackets&quot;</span><span class="p">]</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">new_value</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">new_value</span> <span class="ow">is</span> <span class="n">KEEP</span><span class="p">:</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">base</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>  <span class="c1"># type: ignore</span>
+
+        <span class="c1"># As long as params are typed correctly, we don&#39;t need to worry about type</span>
+        <span class="c1">#   checks here.</span>
+        <span class="k">return</span> <span class="n">SeqName</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+<div class="viewcode-block" id="SeqName.formatted"><a class="viewcode-back" href="../../filenames.html#perfsprocket.SeqName.formatted">[docs]</a>    <span class="k">def</span> <span class="nf">formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;returns formatted string EX: `A001_C001.[0034241-0034256].exr`&quot;&quot;&quot;</span>
+        <span class="n">open_bracket</span><span class="p">,</span> <span class="n">close_bracket</span><span class="p">,</span> <span class="n">range_sep</span> <span class="o">=</span> <span class="n">_format_range_pieces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">start_str</span><span class="p">,</span> <span class="n">end_str</span> <span class="o">=</span> <span class="n">_format_file_nums</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extension</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">formatted</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.base}{self.delim}{open_bracket}{start_str}{range_sep}{end_str}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{close_bracket}{ext}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">formatted</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_num_end_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;extract end frame from REGEX match.&quot;&quot;&quot;</span>
+    <span class="n">num_end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">num_end</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">num_end</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_end</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">_padding_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;deduces padding from REGEX match&quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="n">padding</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">padding</span>
+
+
+<span class="k">def</span> <span class="nf">_brackets_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Braces</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;converts regex match to Brackets object&quot;&quot;&quot;</span>
+    <span class="n">open_char</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span>
+    <span class="n">close_char</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;close&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">open_char</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">close_char</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">this_bracket</span> <span class="ow">in</span> <span class="n">BRACES_KINDS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">open_char</span> <span class="o">!=</span> <span class="n">this_bracket</span><span class="o">.</span><span class="n">open</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">close_char</span> <span class="o">!=</span> <span class="n">this_bracket</span><span class="o">.</span><span class="n">close</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">return</span> <span class="n">this_bracket</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bracket Type: </span><span class="si">{open_char}{close_char}</span><span class="s2"> Not Recognized&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_format_range_pieces</span><span class="p">(</span><span class="n">seq_name</span><span class="p">:</span> <span class="s2">&quot;SeqName&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns open_bracket, close_bracket, range_separator. Non-relevant pieces are</span>
+<span class="sd">    returned as empty string so concatenation does not need to run checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">open_bracket</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">close_bracket</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">range_sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">range_sep</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+
+        <span class="k">if</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">brackets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">open_bracket</span> <span class="o">=</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">brackets</span><span class="o">.</span><span class="n">open</span>
+            <span class="n">close_bracket</span> <span class="o">=</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">brackets</span><span class="o">.</span><span class="n">close</span>
+
+    <span class="k">return</span> <span class="n">open_bracket</span><span class="p">,</span> <span class="n">close_bracket</span><span class="p">,</span> <span class="n">range_sep</span>
+
+
+<span class="k">def</span> <span class="nf">_format_file_nums</span><span class="p">(</span><span class="n">seq_name</span><span class="p">:</span> <span class="s2">&quot;SeqName&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="n">fill_start</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="k">if</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">start</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span> <span class="k">else</span> <span class="s2">&quot;0&quot;</span>
+    <span class="n">fill_end</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="k">if</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">end</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span> <span class="k">else</span> <span class="s2">&quot;0&quot;</span>
+
+    <span class="n">start_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seq_name</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">seq_name</span><span class="o">.</span><span class="n">pad</span><span class="p">,</span> <span class="n">fill_start</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">seq_name</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">end_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">seq_name</span><span class="o">.</span><span class="n">end</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">seq_name</span><span class="o">.</span><span class="n">pad</span><span class="p">,</span> <span class="n">fill_end</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">start_str</span><span class="p">,</span> <span class="n">end_str</span>
+
+
+<span class="k">def</span> <span class="nf">_run_filename_regex</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">PurePath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;extracts sequence name parts from regex&quot;&quot;&quot;</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">PATTERN</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+    <span class="c1"># Stub file for re is wrong here. None can be a value if group is optional.</span>
+    <span class="c1">#   We need to ignore MyPy complaining that Optional[str] is incorrect</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+    <span class="k">return</span> <span class="n">groups</span>
+
+
+<span class="n">PiecesType</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span>
+    <span class="nb">str</span><span class="p">,</span>
+    <span class="nb">str</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+    <span class="nb">int</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">[</span><span class="n">Braces</span><span class="p">],</span>
+    <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_pieces_from_str</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">PurePath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PiecesType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;extracts filename pieces from regex&quot;&quot;&quot;</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">_run_filename_regex</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="n">num_end</span> <span class="o">=</span> <span class="n">_num_end_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="n">padding</span> <span class="o">=</span> <span class="n">_padding_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="n">brackets</span> <span class="o">=</span> <span class="n">_brackets_from_match</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+
+    <span class="c1"># need to do some casting shenanigans since our regex guarantees some returns</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;sep&quot;</span><span class="p">]</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">start</span><span class="p">:</span>
+        <span class="n">start_arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start_arg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">base</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">start_arg</span><span class="p">,</span> <span class="n">num_end</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">brackets</span><span class="p">,</span> <span class="n">extension</span>
+
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">_post_init_start_end</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="o">...</span>
+
+
+<span class="nd">@overload</span>  <span class="c1"># noqa: F811</span>
+<span class="k">def</span> <span class="nf">_post_init_start_end</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="o">...</span>
+
+
+<span class="k">def</span> <span class="nf">_post_init_start_end</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    parses start and end values, returns int when castable, raises value error if</span>
+<span class="sd">    not and string is not &quot;#&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;#&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;#&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;start/end must be int or &#39;#&#39;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
